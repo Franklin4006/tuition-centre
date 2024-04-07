@@ -3,10 +3,14 @@
 $url_segments = request()->segments();
 
 $dashboard = '';
+$standards = '';
 $change_password = '';
 
 if (isset($url_segments[1]) && $url_segments[1] == 'dashboard') {
     $dashboard = 'active';
+}
+if (isset($url_segments[1]) && $url_segments[1] == 'standards') {
+    $standards = 'active';
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
     $change_password = 'active';
@@ -30,6 +34,13 @@ if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
                     <a href="{{ url('admin/dashboard') }}"
                         class="@if ($dashboard) active @endif dropdown-toggle no-arrow">
                         <span class="micon bi bi-speedometer"></span><span class="mtext">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url('admin/standards') }}"
+                        class="@if ($standards) active @endif dropdown-toggle no-arrow">
+                        <span class="micon bi bi-speedometer"></span><span class="mtext">Standards</span>
                     </a>
                 </li>
 

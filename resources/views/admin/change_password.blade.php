@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'CabConnect | Dashboard')
+@section('title', 'Change Password')
 
 @section('content')
     <style>

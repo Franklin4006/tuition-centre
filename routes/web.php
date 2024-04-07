@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\StandardController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,12 @@ Route::prefix('admin')->group(function () {
 
         Route::get('change-password', [HomeController::class, 'change_password']);
         Route::post('update-password', [HomeController::class, 'update_password']);
+
+        Route::get('standards/fetch', [StandardController::class, 'fetch'])->name('standards.fetch');
+        Route::get('standards/chage-status', [StandardController::class, 'chage_status'])->name('standards.chage_status');
+        Route::resource('standards', StandardController::class);
+
+
     });
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
