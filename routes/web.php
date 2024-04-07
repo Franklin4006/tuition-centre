@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StandardController;
@@ -38,6 +39,12 @@ Route::prefix('admin')->group(function () {
         Route::get('subjects/fetch', [SubjectController::class, 'fetch'])->name('subjects.fetch');
         Route::get('subjects/chage-status', [SubjectController::class, 'chage_status'])->name('subjects.chage_status');
         Route::resource('subjects', SubjectController::class);
+
+        Route::get('batchs/fetch', [BatchController::class, 'fetch'])->name('batchs.fetch');
+        Route::get('batchs/chage-status', [BatchController::class, 'chage_status'])->name('batchs.chage_status');
+        Route::resource('batchs', BatchController::class);
+
+
 
 
     });

@@ -3,50 +3,40 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\Standard;
-use App\Models\Subject;
-use App\Models\SubjectStandard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
-class SubjectController extends Controller
+class BatchController extends Controller
 {
-
     public function index()
     {
-        $standards = Standard::get();
-        return view('admin.subjects.index', compact('standards'));
+        $standard = Standard::get();
+        return view('admin.batchs.index', compact('standard'));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'standards' => 'required'
         ]);
 
         if ($request->edit_id) {
-            $Subject = $request->edit_id::find($request->edit_id);
-            SubjectStandard::where('subject_id', $request->edit_id)->delete();
-            $message = "Subject Updated Successfully";
+            $standard = Batch::find($request->edit_id);
+            $message = "Batch Updated Successfully";
         } else {
-            $Subject = new Subject();
-            $Subject->status = 1;
-            $message = "Subject Created Successfully";
+            $standard = new Batch();
+            $standard->status = 1;
+            $message = "Batch Created Successfully";
         }
 
         if (!$validator->fails()) {
 
-            $Subject->name = $request->name;
-            $Subject->save();
-
-            foreach ($request->standards as $sta) {
-                $sub_standard = new SubjectStandard();
-                $sub_standard->subject_id = $Subject->id;
-                $sub_standard->standard_id = $sta;
-                $sub_standard->save();
-            }
+            $standard->name = $request->name;
+            $standard->standard_id = $request->standard;
+            $standard->save();
 
             return array("success" => 1, "message" => $message);
         } else {
@@ -55,14 +45,13 @@ class SubjectController extends Controller
     }
     public function show($id)
     {
-        $Subject = Subject::find($id);
-        $sub_standard = SubjectStandard::where('subject_id', $id)->pluck('standard_id');
-        return array("name" => $Subject->name, 'sub_standard' => $sub_standard);
+        $standard = Batch::find($id);
+        return $standard;
     }
 
     public function fetch()
     {
-        $data = Subject::get();
+        $data = Batch::with('standard')->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status', function ($row) {
@@ -73,7 +62,6 @@ class SubjectController extends Controller
                 }
             })
             ->addColumn('action', function ($row) {
-
 
                 $btn = '<div class="dropdown">
                             <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -102,8 +90,7 @@ class SubjectController extends Controller
 
     public function destroy($id)
     {
-        Subject::find($id)->delete();
-        SubjectStandard::where('subject_id', $id)->delete();
+        Batch::find($id)->delete();
         return array("success" => 1, "message" => "Deleted Successfully");
     }
 
@@ -111,7 +98,7 @@ class SubjectController extends Controller
     {
         $id = $request->edit_id;
         $status = $request->status;
-        $tender = Subject::find($id);
+        $tender = Batch::find($id);
         if ($status == "Active") {
             $tender->status = 1;
         } else if ($status == "InActive") {

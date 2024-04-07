@@ -5,6 +5,7 @@ $url_segments = request()->segments();
 $dashboard = '';
 $standards = '';
 $subjects = '';
+$batchs = '';
 $change_password = '';
 
 if (isset($url_segments[1]) && $url_segments[1] == 'dashboard') {
@@ -15,6 +16,9 @@ if (isset($url_segments[1]) && $url_segments[1] == 'standards') {
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'subjects') {
     $subjects = 'active';
+}
+if (isset($url_segments[1]) && $url_segments[1] == 'batchs') {
+    $batchs = 'active';
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
     $change_password = 'active';
@@ -54,6 +58,14 @@ if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
                         <span class="micon bi bi-speedometer"></span><span class="mtext">Subjects</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('admin/batchs') }}"
+                        class="@if ($batchs) active @endif dropdown-toggle no-arrow">
+                        <span class="micon bi bi-speedometer"></span><span class="mtext">Batch</span>
+                    </a>
+                </li>
+
+
 
                 <li>
                     <a href="{{ url('admin/change-password') }}"
