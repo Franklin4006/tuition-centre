@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StandardController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,13 @@ Route::prefix('admin')->group(function () {
         Route::get('batchs/fetch', [BatchController::class, 'fetch'])->name('batchs.fetch');
         Route::get('batchs/chage-status', [BatchController::class, 'chage_status'])->name('batchs.chage_status');
         Route::resource('batchs', BatchController::class);
+
+        Route::get('students/fetch', [StudentController::class, 'fetch'])->name('students.fetch');
+        Route::get('students/chage-status', [StudentController::class, 'chage_status'])->name('students.chage_status');
+        Route::resource('students', StudentController::class);
+        Route::get('fetch_standard_subject', [StudentController::class, 'fetch_standard_subject'])->name('fetch.standard.subject');
+
+
 
 
 

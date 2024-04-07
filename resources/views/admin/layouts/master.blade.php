@@ -34,6 +34,26 @@
     .error {
         color: red;
     }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .custom-file-input,
+    .custom-file-label,
+    .custom-select,
+    .form-control {
+        height: 40px;
+    }
+
+    textarea.form-control {
+        height: 100px;
+    }
 </style>
 
 <body>
