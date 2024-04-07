@@ -1,42 +1,52 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Standard;
+use App\Models\Subject;
+use App\Models\SubjectStandard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
-class StandardController extends Controller
+class SubjectController extends Controller
 {
+
     public function index()
     {
-        return view('admin.standards.index');
+        $standards = Standard::get();
+        return view('admin.subjects.index', compact('standards'));
     }
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'standards' => 'required'
+        ]);
+
         if ($request->edit_id) {
-
-            $validator = Validator::make($request->all(), [
-                'name' => 'required',
-            ]);
-            $standard = Standard::find($request->edit_id);
-            $message = "Standard Updated Successfully";
+            $Subject = Subject::find($request->edit_id);
+            SubjectStandard::where('subject_id', $request->edit_id)->delete();
+            $message = "Subject Updated Successfully";
         } else {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required',
-            ]);
-
-            $standard = new Standard();
-            $standard->status = 1;
-            $message = "Standard Created Successfully";
+            $Subject = new Subject();
+            $Subject->status = 1;
+            $message = "Subject Created Successfully";
         }
 
         if (!$validator->fails()) {
 
-            $standard->name = $request->name;
-            $standard->save();
+            $Subject->name = $request->name;
+            $Subject->save();
+
+            foreach ($request->standards as $sta) {
+                $sub_standard = new SubjectStandard();
+                $sub_standard->subject_id = $Subject->id;
+                $sub_standard->standard_id = $sta;
+                $sub_standard->save();
+            }
 
             return array("success" => 1, "message" => $message);
         } else {
@@ -45,13 +55,14 @@ class StandardController extends Controller
     }
     public function show($id)
     {
-        $standard = Standard::find($id);
-        return $standard;
+        $Subject = Subject::find($id);
+        $sub_standard = SubjectStandard::where('subject_id', $id)->pluck('standard_id');
+        return array("name" => $Subject->name, 'sub_standard' => $sub_standard);
     }
 
     public function fetch()
     {
-        $data = Standard::get();
+        $data = Subject::get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status', function ($row) {
@@ -85,13 +96,14 @@ class StandardController extends Controller
 
                 return $btn;
             })
-            ->rawColumns(['action','status'])
+            ->rawColumns(['action', 'status'])
             ->make(true);
     }
 
     public function destroy($id)
     {
-        Standard::find($id)->delete();
+        Subject::find($id)->delete();
+        SubjectStandard::where('subject_id', $id)->delete();
         return array("success" => 1, "message" => "Deleted Successfully");
     }
 
@@ -99,7 +111,7 @@ class StandardController extends Controller
     {
         $id = $request->edit_id;
         $status = $request->status;
-        $tender = Standard::find($id);
+        $tender = Subject::find($id);
         if ($status == "Active") {
             $tender->status = 1;
         } else if ($status == "InActive") {

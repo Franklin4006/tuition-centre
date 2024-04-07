@@ -3,7 +3,8 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\StandardController;
+use App\Http\Controllers\Admin\StandardController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,10 @@ Route::prefix('admin')->group(function () {
         Route::get('standards/fetch', [StandardController::class, 'fetch'])->name('standards.fetch');
         Route::get('standards/chage-status', [StandardController::class, 'chage_status'])->name('standards.chage_status');
         Route::resource('standards', StandardController::class);
+
+        Route::get('subjects/fetch', [SubjectController::class, 'fetch'])->name('subjects.fetch');
+        Route::get('subjects/chage-status', [SubjectController::class, 'chage_status'])->name('subjects.chage_status');
+        Route::resource('subjects', SubjectController::class);
 
 
     });
