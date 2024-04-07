@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StandardController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,11 @@ Route::prefix('admin')->group(function () {
         Route::get('students/chage-status', [StudentController::class, 'chage_status'])->name('students.chage_status');
         Route::resource('students', StudentController::class);
         Route::get('fetch_standard_subject', [StudentController::class, 'fetch_standard_subject'])->name('fetch.standard.subject');
+
+        Route::get('teachers/fetch', [TeacherController::class, 'fetch'])->name('teachers.fetch');
+        Route::get('teachers/chage-status', [TeacherController::class, 'chage_status'])->name('teachers.chage_status');
+        Route::resource('teachers', TeacherController::class);
+
 
 
 

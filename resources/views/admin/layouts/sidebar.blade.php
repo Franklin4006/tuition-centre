@@ -7,6 +7,7 @@ $standards = '';
 $subjects = '';
 $batchs = '';
 $students = '';
+$teachers = '';
 $change_password = '';
 
 if (isset($url_segments[1]) && $url_segments[1] == 'dashboard') {
@@ -23,6 +24,9 @@ if (isset($url_segments[1]) && $url_segments[1] == 'batchs') {
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'students') {
     $students = 'active';
+}
+if (isset($url_segments[1]) && $url_segments[1] == 'teachers') {
+    $teachers = 'active';
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
     $change_password = 'active';
@@ -74,9 +78,12 @@ if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
                         <span class="micon bi bi-speedometer"></span><span class="mtext">Students</span>
                     </a>
                 </li>
-
-
-
+                <li>
+                    <a href="{{ url('admin/teachers') }}"
+                        class="@if ($teachers) active @endif dropdown-toggle no-arrow">
+                        <span class="micon bi bi-speedometer"></span><span class="mtext">Teachers</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ url('admin/change-password') }}"

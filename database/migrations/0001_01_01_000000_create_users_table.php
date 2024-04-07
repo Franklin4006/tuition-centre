@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('role_id')->nullable();
             $table->string('mobile_no')->nullable();
             $table->string('profile')->nullable();
+            $table->integer('status')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
