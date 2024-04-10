@@ -30,6 +30,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-4 form-group">
+                            <label>Standard</label>
+                            <select class="form-control" name="fl_standard" id="fl_standard">
+                                <option value="">All</option>
+                                @foreach ($standard as $sta)
+                                    <option value="{{ $sta->id }}">{{ $sta->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label>Batch</label>
+                            <select class="form-control" name="fl_batch" id="fl_batch">
+                                <option value="">All</option>
+                                @foreach ($batch as $bat)
+                                    <option value="{{ $bat->id }}">{{ $bat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <button class="btn btn-primary fl-btn" id="filter_btn"><i class="bi bi-funnel"></i>
+                                Filter</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="pd-20 bg-white border-radius-4 box-shadow">
 
                     <table class="table table-bordered data-table">
@@ -155,38 +181,54 @@
 
 @section('addscript')
     <script type="text/javascript">
-        var table = $('.data-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('students.fetch') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'id'
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'dob_text',
-                    name: 'dob'
-                },
-                {
-                    data: 'father_name',
-                    name: 'father_name'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
+        var table;
+        $(document).ready(function(){
+            initializeDataTable();
         });
+        function initializeDataTable() {
+
+            var standard = $("#fl_standard").val();
+            var batch = $("#fl_batch").val();
+
+            table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('students.fetch') }}",
+                    data: {
+                        standard: standard,
+                        batch:batch
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'dob_text',
+                        name: 'dob'
+                    },
+                    {
+                        data: 'father_name',
+                        name: 'father_name'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        }
 
         $("#students-form").validate({
             rules: {
@@ -348,6 +390,11 @@
                     toastr.error(code.statusText);
                 },
             });
+        });
+
+        $(document).on("click", "#filter_btn", function() {
+            table.destroy();
+            initializeDataTable();
         });
     </script>
 @endsection

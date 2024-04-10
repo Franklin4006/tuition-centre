@@ -54,6 +54,11 @@
     textarea.form-control {
         height: 100px;
     }
+    .fl-btn
+    {
+        margin-top: 30px;
+        padding: 8px 15px;
+    }
 </style>
 
 <body>

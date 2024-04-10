@@ -96,7 +96,7 @@ class StudentController extends Controller
                     return '<span class="badge badge-danger">InActive</span>';
                 }
             })->addColumn('dob_text', function ($row) {
-                    return date("d-m-Y", strtotime($row->status));
+                    return date("d-m-Y", strtotime($row->dob));
             })
             ->addColumn('action', function ($row) {
 
