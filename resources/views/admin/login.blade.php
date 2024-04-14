@@ -18,6 +18,14 @@
     <link rel="stylesheet" type="text/css" href="{{ url('theme/vendors/styles/icon-font.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url('theme/vendors/styles/style.css') }}" />
 
+    <style>
+        @media only screen and (max-width: 600px)
+        {
+            .login-wrap img {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body class="login-page">
