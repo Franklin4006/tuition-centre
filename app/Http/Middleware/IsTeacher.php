@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsTeacher
 {
     /**
      * Handle an incoming request.
@@ -18,11 +18,11 @@ class IsAdmin
     {
         $auth_user = Auth::user();
         if (!$auth_user) {
-            return redirect('/admin/login')->with('error', "Login to Continue");
-        } else if ($auth_user->role_id == 1) {
+            return redirect('/teacher/login')->with('error', "Login to Continue");
+        } else if ($auth_user->role_id == 2) {
             return $next($request);
         } else {
-            return redirect('/admin')->with('error', "You don't have that access");
+            return redirect('/teacher')->with('error', "You don't have that access");
         }
     }
 }

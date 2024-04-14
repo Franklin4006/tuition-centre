@@ -27,7 +27,7 @@ class SubjectController extends Controller
         ]);
 
         if ($request->edit_id) {
-            $Subject = $request->edit_id::find($request->edit_id);
+            $Subject = Subject::find($request->edit_id);
             SubjectStandard::where('subject_id', $request->edit_id)->delete();
             $message = "Subject Updated Successfully";
         } else {

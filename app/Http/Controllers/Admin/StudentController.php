@@ -17,7 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         $standard = Standard::get();
-        $batch = Batch::get();
+        $batch = Batch::orderBy('id', 'DESC')->get();
         return view('admin.students.index', compact('standard', 'batch'));
     }
 
@@ -52,8 +52,7 @@ class StudentController extends Controller
 
             $subject_list = $request->subjects;
 
-            foreach($subject_list as $sub)
-            {
+            foreach ($subject_list as $sub) {
                 $stud_sub = new StudentSubject();
                 $stud_sub->student_id = $students->id;
                 $stud_sub->subject_id = $sub;
@@ -72,11 +71,10 @@ class StudentController extends Controller
 
         $sub_standard = SubjectStandard::with('subject')->where('standard_id', $students->standard_id)->get();
         $subjects = [];
-        foreach($sub_standard as $sub)
-        {
-            if(in_array($sub->subject_id, $subject_id)){
+        foreach ($sub_standard as $sub) {
+            if (in_array($sub->subject_id, $subject_id)) {
                 $checked = 1;
-            }else{
+            } else {
                 $checked = 0;
             }
             $subjects[] = array("id" => $sub->subject_id, "name" => $sub->subject->name, "checked" => $checked);
@@ -84,9 +82,17 @@ class StudentController extends Controller
         return array("students" => $students, "subjects" => $subjects);
     }
 
-    public function fetch()
+    public function fetch(Request $request)
     {
-        $data = Student::get();
+        $data = Student::whereNotNull('roll_no');
+        if ($request->standard) {
+            $data = $data->where("standard_id", $request->standard);
+        }
+        if ($request->batch) {
+            $data = $data->where("batch_id", $request->batch);
+        }
+        $data = $data->get();
+
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status', function ($row) {
@@ -96,7 +102,7 @@ class StudentController extends Controller
                     return '<span class="badge badge-danger">InActive</span>';
                 }
             })->addColumn('dob_text', function ($row) {
-                    return date("d-m-Y", strtotime($row->dob));
+                return date("d-m-Y", strtotime($row->dob));
             })
             ->addColumn('action', function ($row) {
 
@@ -150,8 +156,7 @@ class StudentController extends Controller
         $standard_id = $request->standard_id;
         $sub_standard = SubjectStandard::with('subject')->where('standard_id', $standard_id)->get();
         $subjects = [];
-        foreach($sub_standard as $sub)
-        {
+        foreach ($sub_standard as $sub) {
             $subjects[] = array("id" => $sub->subject_id, "name" => $sub->subject->name);
         }
         return $subjects;

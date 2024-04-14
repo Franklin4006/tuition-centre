@@ -35,7 +35,7 @@ class BatchController extends Controller
         if (!$validator->fails()) {
 
             $standard->name = $request->name;
-            $standard->standard_id = $request->standard;
+            // $standard->standard_id = $request->standard;
             $standard->save();
 
             return array("success" => 1, "message" => $message);
@@ -51,7 +51,8 @@ class BatchController extends Controller
 
     public function fetch()
     {
-        $data = Batch::with('standard')->get();
+        $data = Batch::orderBy('id', 'DESC')->get();
+        // dd($data);
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status', function ($row) {

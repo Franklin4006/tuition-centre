@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsStudent
 {
     /**
      * Handle an incoming request.
@@ -16,13 +15,11 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $auth_user = Auth::user();
-        if (!$auth_user) {
-            return redirect('/admin/login')->with('error', "Login to Continue");
-        } else if ($auth_user->role_id == 1) {
+        $student_login = session('student_login');
+        if ($student_login) {
             return $next($request);
         } else {
-            return redirect('/admin')->with('error', "You don't have that access");
+            return redirect('/student/login')->with('error', "Login to Continue");
         }
     }
 }

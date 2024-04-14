@@ -17,7 +17,7 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        $batch  = Batch::get();
+        $batch  = Batch::orderBy('id', 'DESC')->get();
         $standard  = Standard::get();
         $subject  = Subject::get();
         return view('admin.teachers.index', compact('batch', 'standard', 'subject'));
@@ -36,6 +36,7 @@ class TeacherController extends Controller
         } else {
             $teacher = new User();
             $teacher->status = 1;
+            $teacher->role_id = 2;
             $message = "Teacher Created Successfully";
         }
 
@@ -44,8 +45,10 @@ class TeacherController extends Controller
             $teacher->name = $request->name;
             $teacher->mobile_no = $request->mobile;
             $teacher->email = $request->email;
-            $teacher->password = Hash::make($request->password);
-            $teacher->role_id = 2;
+            if($request->password)
+            {
+                $teacher->password = Hash::make($request->password);
+            }
             $teacher->save();
 
             $batch = $request->batch;

@@ -248,7 +248,7 @@
                                         <select class="form-control" name="subject[]">
                                             <option value="">Select Subject</option>`;
                                             @foreach ($subject as $sub)
-                                            if(teach_sub[i].standard_id == {{ $sub->id }})
+                                            if(teach_sub[i].subject_id == {{ $sub->id }})
                                                 {
                                                     html_content += `<option selected value="{{ $sub->id }}">{{ $sub->name }}</option>`;
                                                 }

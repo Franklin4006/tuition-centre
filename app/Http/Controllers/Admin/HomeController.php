@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Schedule;
+use App\Models\Student;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +16,11 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $students = Student::where('status', 1)->get()->count();
+        $teachers =User::where('role_id', 2)->where('status', 1)->get()->count();
+        $subjects = Subject::where('status', 1)->get()->count();
+        $today_class = Schedule::whereDate('class_at', date("Y-m-d"))->get()->count();
+        return view('admin.dashboard', compact('students', 'teachers', 'subjects', 'today_class'));
     }
 
     public function change_password()

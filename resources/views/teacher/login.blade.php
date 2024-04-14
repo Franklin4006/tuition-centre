@@ -4,7 +4,7 @@
 <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8" />
-    <title> Login</title>
+    <title>Teacher | Login</title>
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -45,9 +45,9 @@
                 <div class="col-md-6 col-lg-5">
                     <div class="login-box bg-white box-shadow border-radius-10">
                         <div class="login-title">
-                            <h2 class="text-center text-primary">Login</h2>
+                            <h2 class="text-center text-primary">Teacher Login</h2>
                         </div>
-                        <form action="{{ route('admin.submit') }}" method="POST">
+                        <form action="{{ route('teacher.submit') }}" method="POST">
                             @csrf
                             @if (count($errors) > 0)
                                 <div class = "alert alert-danger">
@@ -88,18 +88,19 @@
                             </div> --}}
                             <div class="input-group custom">
                                 <input type="text" class="form-control form-control-lg" name="email"
-                                    placeholder="Username" />
+                                    placeholder="Email ID" />
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
                                 </div>
                             </div>
                             <div class="input-group custom">
                                 <input type="password" name="password" class="form-control form-control-lg"
-                                    placeholder="**********" />
+                                    placeholder="*********" />
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                                 </div>
                             </div>
+
                             <div class="row pb-30">
                                 <div class="col-6">
                                     <div class="custom-control custom-checkbox">

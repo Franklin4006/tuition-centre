@@ -23,7 +23,7 @@
                                 </ol>
                             </nav>
                         </div>
-                        <div class="col-md-6 col-sm-12 text-right">
+                        {{-- <div class="col-md-6 col-sm-12 text-right">
                             <div class="dropdown">
                                 <a class="btn btn-primary dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown">
@@ -35,10 +35,79 @@
                                     <a class="dropdown-item" href="#">View Assets</a>
                                 </div>
                             </div>
+                        </div> --}}
+                    </div>
+                </div>
+
+                <div class="row pb-10">
+                    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                        <div class="card-box height-100-p widget-style3">
+                            <div class="d-flex flex-wrap">
+                                <div class="widget-data">
+                                    <div class="weight-700 font-24 text-dark">{{ $students }}</div>
+                                    <div class="font-14 text-secondary weight-500">
+                                        Students
+                                    </div>
+                                </div>
+                                <div class="widget-icon">
+                                    <div class="icon" data-color="#00eccf">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                        <div class="card-box height-100-p widget-style3">
+                            <div class="d-flex flex-wrap">
+                                <div class="widget-data">
+                                    <div class="weight-700 font-24 text-dark">{{ $teachers }}</div>
+                                    <div class="font-14 text-secondary weight-500">
+                                        Teachers
+                                    </div>
+                                </div>
+                                <div class="widget-icon">
+                                    <div class="icon" data-color="#ff5b5b">
+                                        <i class="bi bi-mortarboard"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                        <div class="card-box height-100-p widget-style3">
+                            <div class="d-flex flex-wrap">
+                                <div class="widget-data">
+                                    <div class="weight-700 font-24 text-dark">{{ $subjects }}</div>
+                                    <div class="font-14 text-secondary weight-500">
+                                        Subjects
+                                    </div>
+                                </div>
+                                <div class="widget-icon">
+                                    <div class="icon">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                        <div class="card-box height-100-p widget-style3">
+                            <div class="d-flex flex-wrap">
+                                <div class="widget-data">
+                                    <div class="weight-700 font-24 text-dark">{{ $today_class }}</div>
+                                    <div class="font-14 text-secondary weight-500">Today Class</div>
+                                </div>
+                                <div class="widget-icon">
+                                    <div class="icon" data-color="#09cc06">
+                                        <i class="bi bi-calendar-week"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="min-height: 200px;"></div>
+
             </div>
         </div>
     </div>

@@ -121,6 +121,7 @@
 
 
     @yield('content')
+    <br>
 
     <div class="modal fade" id="delete-confirm-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

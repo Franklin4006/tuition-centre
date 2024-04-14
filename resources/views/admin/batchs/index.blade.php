@@ -37,7 +37,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>Standard</th>
+                                {{-- <th>Standard</th> --}}
                                 <th>Status</th>
                                 <th width="100px">Action</th>
                             </tr>
@@ -72,7 +72,7 @@
                             <label>Name</label>
                             <input type="text" class="form-control" name="name" id="name">
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Standard</label>
                             <select class="form-control" name="standard" id="standard">
                                 <option value="">Select Standard</option>
@@ -80,7 +80,7 @@
                                     <option value="{{ $sta->id }}">{{ $sta->name }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -122,6 +122,7 @@
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
+            order: [[1, 'desc']],
             ajax: "{{ route('batchs.fetch') }}",
             columns: [{
                     data: 'DT_RowIndex',
@@ -131,10 +132,10 @@
                     data: 'name',
                     name: 'name'
                 },
-                {
-                    data: 'standard.name',
-                    name: 'standard'
-                },
+                // {
+                //     data: 'standard.name',
+                //     name: 'standard'
+                // },
                 {
                     data: 'status',
                     name: 'status'
@@ -153,9 +154,9 @@
                 name: {
                     required: true,
                 },
-                standard: {
-                    required: true,
-                }
+                // standard: {
+                //     required: true,
+                // }
             },
             submitHandler: function(form) {
 
@@ -195,7 +196,7 @@
                 dataType: "json",
                 success: function(response) {
                     $("#name").val(response.name);
-                    $("#standard").val(response.standard_id);
+                    // $("#standard").val(response.standard_id);
                     $("#batchs-modal").modal("show");
                 },
                 error: function(code) {

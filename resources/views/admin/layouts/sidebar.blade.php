@@ -8,6 +8,7 @@ $subjects = '';
 $batchs = '';
 $students = '';
 $teachers = '';
+$schedule = '';
 $change_password = '';
 
 if (isset($url_segments[1]) && $url_segments[1] == 'dashboard') {
@@ -27,6 +28,9 @@ if (isset($url_segments[1]) && $url_segments[1] == 'students') {
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'teachers') {
     $teachers = 'active';
+}
+if (isset($url_segments[1]) && $url_segments[1] == 'schedule') {
+    $schedule = 'active';
 }
 if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
     $change_password = 'active';
@@ -57,33 +61,41 @@ if (isset($url_segments[1]) && $url_segments[1] == 'change-password') {
                 <li>
                     <a href="{{ url('admin/standards') }}"
                         class="@if ($standards) active @endif dropdown-toggle no-arrow">
-                        <span class="micon bi bi-speedometer"></span><span class="mtext">Standards</span>
+                        <span class="micon bi bi-bookmark-star"></span><span class="mtext">Standards</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('admin/subjects') }}"
                         class="@if ($subjects) active @endif dropdown-toggle no-arrow">
-                        <span class="micon bi bi-speedometer"></span><span class="mtext">Subjects</span>
+                        <span class="micon bi  bi-book"></span><span class="mtext">Subjects</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('admin/batchs') }}"
                         class="@if ($batchs) active @endif dropdown-toggle no-arrow">
-                        <span class="micon bi bi-speedometer"></span><span class="mtext">Batch</span>
+                        <span class="micon bi bi-calendar4"></span><span class="mtext">Batch</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('admin/students') }}"
                         class="@if ($students) active @endif dropdown-toggle no-arrow">
-                        <span class="micon bi bi-speedometer"></span><span class="mtext">Students</span>
+                        <span class="micon bi bi-people"></span><span class="mtext">Students</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('admin/teachers') }}"
                         class="@if ($teachers) active @endif dropdown-toggle no-arrow">
-                        <span class="micon bi bi-speedometer"></span><span class="mtext">Teachers</span>
+                        <span class="micon bi bi-mortarboard"></span><span class="mtext">Teachers</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('admin/schedule') }}"
+                        class="@if ($schedule) active @endif dropdown-toggle no-arrow">
+                        <span class="micon bi bi-watch"></span><span class="mtext">Schedule</span>
+                    </a>
+                </li>
+
+
 
                 <li>
                     <a href="{{ url('admin/change-password') }}"

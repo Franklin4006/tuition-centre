@@ -4,7 +4,7 @@
 <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8" />
-    <title> Login</title>
+    <title>Student | Login</title>
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -45,9 +45,9 @@
                 <div class="col-md-6 col-lg-5">
                     <div class="login-box bg-white box-shadow border-radius-10">
                         <div class="login-title">
-                            <h2 class="text-center text-primary">Login</h2>
+                            <h2 class="text-center text-primary">Student Login</h2>
                         </div>
-                        <form action="{{ route('admin.submit') }}" method="POST">
+                        <form action="{{ route('student.submit') }}" method="POST">
                             @csrf
                             @if (count($errors) > 0)
                                 <div class = "alert alert-danger">
@@ -87,26 +87,17 @@
                                 </div>
                             </div> --}}
                             <div class="input-group custom">
-                                <input type="text" class="form-control form-control-lg" name="email"
-                                    placeholder="Username" />
+                                <input type="text" class="form-control form-control-lg" name="roll_no"
+                                    placeholder="Roll Number" />
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
                                 </div>
                             </div>
                             <div class="input-group custom">
-                                <input type="password" name="password" class="form-control form-control-lg"
-                                    placeholder="**********" />
+                                <input type="text" name="dob" class="form-control form-control-lg"
+                                    placeholder="Date of Birth (YYYY-MM-DD)" />
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
-                                </div>
-                            </div>
-                            <div class="row pb-30">
-                                <div class="col-6">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="remember"
-                                            id="customCheck1" />
-                                        <label class="custom-control-label" for="customCheck1">Remember</label>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
