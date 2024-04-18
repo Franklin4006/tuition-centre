@@ -90,10 +90,10 @@
                     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                         <span class="user-icon">
                             @if (auth()->user()->profile)
-                                <img src="{{ url('uploads/profile_photo') }}/{{ auth()->user()->profile }}"
+                                <img class="avatar-photo" src="{{ url('uploads/profile_photo') }}/{{ auth()->user()->profile }}"
                                     alt="" />
                             @else
-                                <img src="{{ url('images/user-icon.jpeg') }}" alt="" />
+                                <img class="avatar-photo" src="{{ url('images/user-icon.jpeg') }}" alt="" />
                             @endif
                         </span>
                         <span class="user-name">{{ auth()->user()->name }}</span>
