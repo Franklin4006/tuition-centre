@@ -10,4 +10,13 @@ class Student extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public function standard()
+    {
+        return $this->belongsTo(Standard::class);
+    }
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class);
+    }
 }

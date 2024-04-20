@@ -22,8 +22,11 @@ class ScheduleController extends Controller
     }
     public function view($batch, $standard)
     {
+        $standard_name = Standard::where('id', $standard)->first()->name;
+        $batch_name = Batch::where('id', $batch)->first()->name;
+
         $subject_list = SubjectStandard::with('subject')->where('standard_id', $standard)->get();
-        return view('admin.schedule.view', ['subject' => $subject_list, 'batch_id' => $batch, 'standard_id' => $standard]);
+        return view('admin.schedule.view', ['standard_name' => $standard_name, 'batch_name' => $batch_name, 'subject' => $subject_list, 'batch_id' => $batch, 'standard_id' => $standard]);
     }
 
     public function store(Request $request)

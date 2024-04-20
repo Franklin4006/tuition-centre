@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ScheduleController;
@@ -90,6 +91,15 @@ Route::prefix('admin')->group(function () {
         Route::post('schedule/store', [ScheduleController::class, 'store'])->name('schedule.store');
         Route::get('schedule/fatch', [ScheduleController::class, 'fatch'])->name('schedule.fatch');
         Route::post('schedule/delete', [ScheduleController::class, 'delete'])->name('schedule.delete');
+
+        Route::get('exams', [ExamController::class, 'index'])->name('exams.index');
+        Route::get('exams/{batch}/{standard}', [ExamController::class, 'view'])->name('exams.view');
+        Route::post('exam/pre-upload', [ExamController::class, 'pre_upload'])->name('exam.pre_upload');
+        Route::post('exam/store', [ExamController::class, 'store'])->name('exam.store');
+        Route::get('exam/fatch', [ExamController::class, 'fatch'])->name('exam.fatch');
+        Route::post('exam/delete', [ExamController::class, 'delete'])->name('exam.delete');
+
+
     });
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
