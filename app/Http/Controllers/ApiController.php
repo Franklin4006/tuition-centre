@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Schedule;
+use App\Models\Student;
+use App\Models\StudentSubject;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class ApiController extends Controller
+{
+    public function student_login(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'roll_no' => 'required',
+                'dob' => 'required',
+            ]
+        );
+
+        if (!$validator->fails()) {
+            $roll_no = $request->roll_no;
+            $dob = $request->dob;
+
+            $student = Student::where('roll_no', $roll_no)->where('dob', $dob)->first();
+
+            if ($student) {
+                $token = sha1(time());
+                $student->token = $token;
+                $student->save();
+
+                return array("token" => $token);
+            } else {
+                return response()->json(['message' => "invalid data"], 201);
+            }
+        } else {
+            return response()->json(['message' => $validator->errors()->first()], 201);
+        }
+    }
+
+    public function student_info(Request $request)
+    {
+        $token = $request->token;
+        $student = Student::where('token', $token)->first();
+        if ($student) {
+            return $student->toArray();
+        } else {
+            return response()->json(['message' => "invalid data"], 502);
+        }
+    }
+
+    public function classes_info(Request $request)
+    {
+        $token = $request->token;
+        $student = Student::where('token', $token)->first();
+
+        /* Class Schedules */
+        $student_subject = StudentSubject::with('subject')->where('student_id', $student->id)->get();
+
+        $subject_id = [];
+        $subject_name = [];
+
+        foreach ($student_subject as $da) {
+            $subject_id[] = $da->subject_id;
+            $subject_name[] = $da->subject->name;
+        }
+
+        $today_class = Schedule::with('subject')->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id)->whereIn('subject_id', $subject_id)->whereDate('class_at', date("Y-m-d"))->orderBy('class_at', "ASC")->get();
+        $upcomming_class = Schedule::with('subject')->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id)->whereIn('subject_id', $subject_id)->whereDate('class_at', ">", date("Y-m-d"))->orderBy('class_at', "ASC")->limit(10)->get();
+        $today_class_array = [];
+        $upcomming_class_array = [];
+
+        foreach ($today_class as $index => $tc) {
+            $today_class_array[] = array("s_no" => $index + 1, "subject" => $tc->subject->name, "time" => date('h:i A', strtotime($tc->class_at)));
+        }
+
+        foreach ($upcomming_class as $index => $tc) {
+            $upcomming_class_array[] = array("s_no" => $index + 1, "subject" => $tc->subject->name, "date" => date('d-M-Y', strtotime($tc->class_at)), "time" => date('h:i A', strtotime($tc->class_at)));
+        }
+
+        return array("today_class" => $today_class_array, "upcomming_class" => $upcomming_class_array);
+    }
+}
