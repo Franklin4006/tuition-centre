@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExamMark;
 use App\Models\Schedule;
 use App\Models\Student;
 use App\Models\StudentSubject;
@@ -81,5 +82,22 @@ class ApiController extends Controller
         }
 
         return array("today_class" => $today_class_array, "upcomming_class" => $upcomming_class_array);
+    }
+
+    public function marks_info(Request $request)
+    {
+        $token = $request->token;
+        $student = Student::where('token', $token)->first();
+
+        $exam_marks = ExamMark::whereHas('exam', function ($q) use ($student) {
+            $q->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id);
+        })->where('student_id', $student->id)->orderBy('id', 'DESC')->get();
+
+        $exam_marks_array = [];
+        foreach ($exam_marks as $index => $em) {
+            $exam_marks_array[] = array("s_no" => $index + 1, "subject" => $em->exam->subject->name, "exam_name" => $em->exam->name, "mark" => $em->mark);
+        }
+
+        return $exam_marks_array;
     }
 }
