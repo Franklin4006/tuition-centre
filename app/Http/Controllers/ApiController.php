@@ -44,9 +44,26 @@ class ApiController extends Controller
     public function student_info(Request $request)
     {
         $token = $request->token;
-        $student = Student::where('token', $token)->first();
+        $student = Student::with(['batch', 'standard'])->where('token', $token)->first();
+        $subjects = [];
+
+        $student_subject = StudentSubject::with('subject')->where('student_id', $student->id)->get();
+        foreach($student_subject as $ss)
+        {
+            $subjects[] = $ss->subject->name;
+        }
         if ($student) {
-            return $student->toArray();
+            return array(
+                "name" => $student->name,
+                "roll_no" => $student->roll_no,
+                "dob" => $student->dob,
+                "father_name" => $student->father_name,
+                "class" => $student->standard->name,
+                "batch" => $student->batch->name,
+                "subjects" => implode(", ", $subjects),
+            );
+
+            $student->toArray();
         } else {
             return response()->json(['message' => "invalid data"], 502);
         }
@@ -68,8 +85,8 @@ class ApiController extends Controller
             $subject_name[] = $da->subject->name;
         }
 
-        $today_class = Schedule::with('subject')->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id)->whereIn('subject_id', $subject_id)->whereDate('class_at', date("Y-m-d"))->orderBy('class_at', "ASC")->get();
-        $upcomming_class = Schedule::with('subject')->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id)->whereIn('subject_id', $subject_id)->whereDate('class_at', ">", date("Y-m-d"))->orderBy('class_at', "ASC")->limit(10)->get();
+        $today_class = Schedule::with('subject')->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id)->whereIn('subject_id', $subject_id)->whereDate('class_at', date("Y-m-d"))->orderBy('class_at', "ASC")->limit(5)->get();
+        $upcomming_class = Schedule::with('subject')->where('batch_id', $student->batch_id)->where('standard_id', $student->standard_id)->whereIn('subject_id', $subject_id)->whereDate('class_at', ">", date("Y-m-d"))->orderBy('class_at', "ASC")->limit(5)->get();
         $today_class_array = [];
         $upcomming_class_array = [];
 
@@ -81,7 +98,7 @@ class ApiController extends Controller
             $upcomming_class_array[] = array("s_no" => $index + 1, "subject" => $tc->subject->name, "date" => date('d-M-Y', strtotime($tc->class_at)), "time" => date('h:i A', strtotime($tc->class_at)));
         }
 
-        return array("today_class" => $today_class_array, "upcomming_class" => $upcomming_class_array);
+        return array("today_class" => $upcomming_class_array, "upcomming_class" => $upcomming_class_array);
     }
 
     public function marks_info(Request $request)
